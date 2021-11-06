@@ -17,6 +17,8 @@ export default function Home() {
   // app state
   const [walletAddress, setWalletAddress] = useState(null)
   const [inputValue, setInputValue] = useState('')
+  const [gifList, setGifList] = useState([])
+
   const checkIfWalletIsConnected = async () => {
     try {
       const { solana } = window;
@@ -46,6 +48,14 @@ export default function Home() {
     });
   }, []);
 
+  useEffect(() => {
+    if (walletAddress) {
+      console.log("Fetching Gif list...");
+
+      setGifList(TEST_GIFS)
+    }
+  }, [walletAddress])
+
   const connectWallet = async () => {
     const { solana } = window;
 
@@ -53,6 +63,14 @@ export default function Home() {
       const res = await solana.connect();
       console.log('Connected with Public Key:', res.publicKey.toString());
       setWalletAddress(res.publicKey.toString());
+    }
+  }
+
+  const sendGif = async () => {
+    if (inputValue.length > 0) {
+      console.log("Gif link:", inputValue);
+    } else {
+      console.log("Empty input. Try again.");
     }
   }
 
@@ -78,9 +96,14 @@ export default function Home() {
         value={inputValue}
         onChange={onInputChange}
       />
-      <button className="cta-button submit-gif-button">Submit</button>
+      <button
+        className="cta-button submit-gif-button"
+        onClick={sendGif}
+      >
+        Submit
+      </button>
       <div className="gif-grid">
-        {TEST_GIFS.map(gif => (
+        {gifList.map(gif => (
           <div className="gif-item" key={gif}>
             <Image src={gif} alt={gif} width={300} height={300} />
           </div>
