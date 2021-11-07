@@ -2,7 +2,7 @@
 
 some demo :)
 
-<img src="https://github.com/ertyurk/FE_solana_gif_portal/demo.gif" alt="was fun)" width="600" />
+<img src="https://github.com/ertyurk/FE_solana_gif_portal/blob/main/demo.gif" alt="was fun)" width="600" />
 
 ## built with Nextjs on @buildspace
 
