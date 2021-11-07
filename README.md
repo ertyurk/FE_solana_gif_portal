@@ -1,4 +1,9 @@
 # Solana Gif Portal
+
+some demo :)
+
+<img src="https://github.com/ertyurk/FE_solana_gif_portal/demo.gif" alt="was fun)" width="600" />
+
 ## built with Nextjs on @buildspace
 
 Clone this repo
@@ -9,3 +14,4 @@ Install packages
 
 Start development environment
 `yarn dev`
+
