@@ -228,10 +228,10 @@ export default function Home() {
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
         </div>
-        <div className="footer-text">
+        <div className="disclaimer">
           <div>
             Disclaimer: This app is built on <a
-              className="footer-text"
+              className="disclaimer"
               href="https://app.buildspace.so/"
               target="_blank"
               rel="noreferrer"
