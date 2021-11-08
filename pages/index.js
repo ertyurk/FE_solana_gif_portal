@@ -43,38 +43,21 @@ export default function Home() {
   const [walletAddress, setWalletAddress] = useState(null)
   const [inputValue, setInputValue] = useState('')
   const [gifList, setGifList] = useState([])
-
-
-
-  const checkIfWalletIsConnected = async () => {
-    try {
-      const { solana } = window;
-
-      if (solana) {
-        if (solana.isPhantom) {
-          console.log('Phantom wallet found!');
-          const res = await solana.connect({ onlyIfTrusted: true });
-          console.log('Connected with Public Key:', res.publicKey.toString());
-          userWalletAddress = res.publicKey.toString()
-          // setting address to state
-          setWalletAddress(res.publicKey.toString())
-
-        }
-      } else {
-        alert('Solana object not found! Get a Phantom Wallet 👻');
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
+  const [provider, setProvider] = useState(null)
 
   useEffect(() => {
-    window.addEventListener('load', async (event) => {
-      await checkIfWalletIsConnected();
-    });
-  }, []);
-
+    if ("solana" in window && window.solana.isPhantom) {
+      // Will either automatically connect to Phantom, or do nothing.
+      try {
+        const pubKey = window.solana.connect({ onlyIfTrusted: true })
+        if (pubKey) {
+          setWalletAddress(pubKey.toString())
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  }, [])
 
   const getGifList = async () => {
     try {
@@ -84,13 +67,11 @@ export default function Home() {
 
       totalGifCount = account.gifList.length;
       console.log("totalGifCount ", totalGifCount)
-
-
       console.log("got the account", account);
       setGifList(account.gifList);
     } catch (e) {
       console.log(`Error in get gifs: ${e}`);
-      setGifList(null)
+      setGifList([])
     }
   }
 
@@ -223,7 +204,7 @@ export default function Home() {
         </div>
         <div className="main-account">
           <div className="account-strip">
-            {`${userWalletAddress.substring(0, 6)}...${userWalletAddress.substr(-6)}`}
+            {userWalletAddress && `${userWalletAddress.substring(0, 6)}...${userWalletAddress.substr(-6)}`}
           </div>
           <div className="logo">
 
@@ -238,11 +219,10 @@ export default function Home() {
       <div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
           <p className="header">🖼 GIF Portal</p>
-          <p className="sub-text">
-            {!walletAddress ? "Upload" : "View"} your GIF collection in the metaverse ✨
+          <div className="sub-text">
+            {walletAddress ? "View" : "Upload"} your GIF collection in the metaverse ✨
             {walletAddress && userStrip()}
-
-          </p>
+          </div>
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
         </div>
@@ -263,12 +243,3 @@ export default function Home() {
     </div>
   );
 };
-
-
-
-
-
-/*
-
-
-*/
