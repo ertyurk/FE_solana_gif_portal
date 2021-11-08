@@ -50,6 +50,7 @@ export default function Home() {
       // Will either automatically connect to Phantom, or do nothing.
       try {
         const pubKey = window.solana.connect({ onlyIfTrusted: true })
+
         if (pubKey) {
           setWalletAddress(pubKey.toString())
         }
@@ -90,6 +91,7 @@ export default function Home() {
     if (solana) {
       const res = await solana.connect();
       console.log('Connected with Public Key:', res.publicKey.toString());
+      userWalletAddress = res.publicKey.toString();
       setWalletAddress(res.publicKey.toString());
     }
   }
@@ -198,9 +200,9 @@ export default function Home() {
       <div className="connected-profile">
         <div className="account-balance">
           {totalGifCount} 
-          {totalGifCount == 0 ? " Gif" 
-            : totalGifCount == 1 ? " Gif"
-            : " Gifs"}
+          {totalGifCount == 0 ? " GIF" 
+            : totalGifCount == 1 ? " GIF"
+            : " GIFS"}
         </div>
         <div className="main-account">
           <div className="account-strip">
@@ -226,6 +228,17 @@ export default function Home() {
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
         </div>
+        <div className="footer-text">
+          <div>
+            Disclaimer: This app is built on <a
+              className="footer-text"
+              href="https://app.buildspace.so/"
+              target="_blank"
+              rel="noreferrer"
+            >{`@${TWITTER_HANDLE}`}</a> and deployed to solana devnet.
+            <p>Please do not use your real wallet.</p>
+          </div>
+        </div>
         <div className="footer-container">
           <Image
             alt="Twitter Logo"
@@ -237,7 +250,13 @@ export default function Home() {
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-          >{`built on @${TWITTER_HANDLE}`}</a>
+          >{`built on @_buildspace b`}</a>
+          <a
+            className="footer-text"
+            href="https://twitter.com/mehmetterturk"
+            target="_blank"
+            rel="noreferrer"
+          >{`y @mehmetterturk`}</a>
         </div>
       </div>
     </div>
